@@ -1,33 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class gameManager : MonoBehaviour
+public class PlayerLights : MonoBehaviour
 {
-
-    [SerializeField] private UnityEvent Win;
-    [SerializeField] private UnityEvent defeat;
-    private WinPlatform winPlatform;
     private PlayerController player;
-
+    public Transform aim;
     // Start is called before the first frame update
     void Start()
     {
-        winPlatform = FindObjectOfType<WinPlatform>();
         player = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (winPlatform.win)
+        transform.LookAt(aim);
+        if (player.isDeath)
         {
-            Win.Invoke();
+            this.gameObject.SetActive(false);
         }
-        if (player.Defeat)
+        else
         {
-            defeat.Invoke();
+            this.gameObject.SetActive(true);
         }
     }
 }

@@ -4,32 +4,63 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private int speed = 5;
+    public int speed = 5;
     private float DashSpeed = 1;
     private float DashTimer;
     private float DashUse;
-    [SerializeField] private float DashLimit;
+    public float DashLimit;
+
     public int playerRange;
     public int playerSafeRange;
+
     public int PlayerHP;
+    public int PlayerTotalHP;
+    public bool Defeat;
+
     private Animator Animator;
     private bool Mov;
+    private bool dashAni;
+    public bool isDeath;
+
+    private bool GotHit;
+    private float invincible;
+    public float invincibleTime;
+
+    public Renderer Rend;
+    private bool flashingRender = true;
+
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         Animator = GetComponent<Animator>();
+        Rend = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        DashControl();
-        CharacterMovement();
+        if(isDeath == false)
+        {
+            DashControl();
+            CharacterMovement();
+            Iframes();
+        }
+        
+
         Animator.SetBool("Movement", Mov == true);
+        Animator.SetBool("DashAni", dashAni == true);
+        Animator.SetBool("IsDeath", isDeath == true);
 
         if (PlayerHP <= 0)
         {
-            Destroy(this.gameObject);
+            isDeath = true;
+            Defeat = true;
+        }
+        else
+        {
+            isDeath = false;
         }
     }
 
@@ -74,32 +105,57 @@ public class PlayerController : MonoBehaviour
         {
             //Logica del Dash
             DashSpeed = 2.5f;
+            dashAni = true;
             DashUse += Time.deltaTime;
             if (DashUse > DashLimit)
             {
                 DashUse = 0;
                 DashTimer = 0;
+                
             }
         }
         else
         {
             DashSpeed = 1;
+            dashAni = false;
         }
+    }
+
+    private bool Iframes()
+    {
+        if (GotHit && invincible < invincibleTime)
+        {
+            invincible += Time.deltaTime;
+            flashingRender = !flashingRender;
+            Rend.enabled = flashingRender;
+            return true;   
+        }
+        else
+        {
+            invincible = 0;
+            Rend.enabled = true;
+            GotHit = false;
+            return false;
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyBall")
+        if (collision.gameObject.tag == "EnemyBall" && !GotHit)
         {
             PlayerHP--;
+            GotHit = true;
+            audioSource.Play(0);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" && !GotHit)
         {
             PlayerHP--;
+            GotHit = true;
         }
     }
 

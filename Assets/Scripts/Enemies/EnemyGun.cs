@@ -24,7 +24,6 @@ public class EnemyGun : MonoBehaviour
             Instantiate(bala, transform.position, transform.rotation);
             ran = Random.Range(1.0f, 3.0f);
             Shoot = 0;
-            Debug.Log("sexo");
             
         }
     }

@@ -5,18 +5,23 @@ using System.Collections;
 public class EnemyBehavior: MonoBehaviour
 {
     private PlayerController player;
+    private EnemyGun ScriptGun;
     public GameObject Objectgun;
+    public Transform target;
+
     public float moveSpeed;
+    public int EnemySHP;
+
     private float PlayerRange;
     private float PlayerSafeRange;
     public LayerMask playerLayer;
     private bool playerInRange;
     private bool playerInSafeRange;
-    private EnemyGun ScriptGun;
-    public Transform target;
-    public int EnemySHP;
+
     private Animator Animator;
     private bool Mov;
+    private bool AnimGotHit;
+    private bool isDeath;
 
     // Use this for initialization
     void Start()
@@ -36,22 +41,31 @@ public class EnemyBehavior: MonoBehaviour
         playerInSafeRange = Physics2D.OverlapCircle(transform.position, PlayerSafeRange, playerLayer);
 
         Animator.SetBool("Movement", Mov == true);
+        Animator.SetBool("GotHit", AnimGotHit == true);
+        Animator.SetBool("IsDeath", isDeath == true);
 
-        if (playerInRange && !playerInSafeRange)
+        if(isDeath == false)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-            Mov = true;
-            ScriptGun.EnableShooting(true);
+            if (playerInRange && !playerInSafeRange)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                Mov = true;
+                ScriptGun.EnableShooting(true);
+            }
+            else
+            {
+                Mov = false;
+            }
         }
-        else
-        {
-            Mov = false;
-        }
+        
 
         if (EnemySHP <= 0)
         {
-            Destroy(this.gameObject);
+            isDeath = true;
+            Destroy(gameObject);
         }
+
+        DamageAnimation(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,7 +73,17 @@ public class EnemyBehavior: MonoBehaviour
         if (collision.gameObject.tag == "ball")
         {
             EnemySHP--;
+            DamageAnimation(true);
         }
+        else
+        {
+            
+        }
+    }
+
+    private void DamageAnimation(bool gotHit)
+    {
+        AnimGotHit = gotHit;
     }
 
 }

@@ -1,33 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class gameManager : MonoBehaviour
+public class ArmController : MonoBehaviour
 {
-
-    [SerializeField] private UnityEvent Win;
-    [SerializeField] private UnityEvent defeat;
-    private WinPlatform winPlatform;
     private PlayerController player;
-
+    public Renderer Rend;
     // Start is called before the first frame update
     void Start()
     {
-        winPlatform = FindObjectOfType<WinPlatform>();
         player = FindObjectOfType<PlayerController>();
+        Rend = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (winPlatform.win)
+        if (player.isDeath)
         {
-            Win.Invoke();
+            Rend.enabled = false;
         }
-        if (player.Defeat)
+        else
         {
-            defeat.Invoke();
+            Rend.enabled = true;
         }
     }
 }
