@@ -163,12 +163,12 @@ public class PlayerController : MonoBehaviour
     {
         
         //Dibujo rango de detección del jugador 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, playerRange);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(transform.position, playerRange);
 
         //Dibujo rango el cual el enemigo deja de seguir al player
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, playerSafeRange);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawWireSphere(transform.position, playerSafeRange);
         
     }
 }

@@ -137,7 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0b7040c52e7c64c843b01a83f98196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Thrust: 1
+  validTags:
+  - Enemy
+  - WallsDoors
+  speed: 15
   rb: {fileID: 6477003830721833378}
 --- !u!82 &-3107380285347985847
 AudioSource:

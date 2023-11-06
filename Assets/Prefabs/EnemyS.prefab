@@ -102,12 +102,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Objectgun: {fileID: 5761058333318338773}
+  target: {fileID: 6809178415573937035, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
   moveSpeed: 2
+  EnemySHP: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  target: {fileID: 6809178415573937035, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-  EnemySHP: 5
 --- !u!95 &4471588122687483568
 Animator:
   serializedVersion: 4
@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2151758193928529759, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14389648f025c274c8bbb31f4e299adb, type: 2}
     - target: {fileID: 5603936494495142666, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
       propertyPath: m_Name
       value: Pistola-Normal

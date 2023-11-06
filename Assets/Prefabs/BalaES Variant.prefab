@@ -70,6 +70,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5868460489162933004, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
+--- !u!50 &3805335333348859359 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6477003830721833378, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
+  m_PrefabInstance: {fileID: 7867143101876581501}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6021730493595098997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
@@ -87,5 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81b0548ef51c4e49b49bc37923e9a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Thrust: 0.1
-  rb: {fileID: 0}
+  validTags:
+  - Player
+  - WallsDoors
+  speed: 12
+  rb: {fileID: 3805335333348859359}
