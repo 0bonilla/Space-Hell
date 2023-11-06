@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int speed = 5;
-    private float DashSpeed = 1;
-    private float DashTimer;
-    private float DashUse;
-    public float DashLimit;
+    Rigidbody2D body;
+    //Movement
+    float horizontal;
+    float vertical;
+    public float runSpeed = 20f;
 
+    //Dash
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 1f;
+    [SerializeField] private float dashingTime = 0.3f;
+    private float dashingCooldown = 2f;
+
+    //Range
     public int playerRange;
     public int playerSafeRange;
 
+    //Health
     public int PlayerHP;
     public int PlayerTotalHP;
     public bool Defeat;
-
-    private Animator Animator;
-    private bool Mov;
-    private bool dashAni;
-    public bool isDeath;
-
     private bool GotHit;
     private float invincible;
     public float invincibleTime;
 
+    //Animations
+    private Animator Animator;
+    private bool Mov;
+    public bool isDeath;
+
+    //Render
     public Renderer Rend;
     private bool flashingRender = true;
+    [SerializeField] private TrailRenderer trail;
 
     AudioSource audioSource;
     // Start is called before the first frame update
@@ -36,6 +46,7 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponent<Animator>();
         Rend = GetComponent<Renderer>();
         audioSource = GetComponent<AudioSource>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -43,82 +54,54 @@ public class PlayerController : MonoBehaviour
     {
         if(isDeath == false)
         {
-            DashControl();
             CharacterMovement();
             Iframes();
         }
         
-
         Animator.SetBool("Movement", Mov == true);
-        Animator.SetBool("DashAni", dashAni == true);
         Animator.SetBool("IsDeath", isDeath == true);
 
-        if (PlayerHP <= 0)
-        {
-            isDeath = true;
-            Defeat = true;
-        }
-        else
-        {
-            isDeath = false;
-        }
+        Death();
     }
 
 
     void CharacterMovement()
     {
-        if (Input.GetKey("w"))
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
         {
-            transform.Translate(0, speed * DashSpeed * Time.deltaTime, 0);
-            Mov = true;
-        }
-        else if (Input.GetKey("a"))
-        {
-            transform.Translate(speed * DashSpeed * Time.deltaTime * -1, 0, 0);
-            Mov = true;
-        }
-        else if(Input.GetKey("s"))
-        {
-            transform.Translate(0, speed * DashSpeed * Time.deltaTime * -1, 0);
-            Mov = true;
-        }
-        else if(Input.GetKey("d"))
-        {
-            transform.Translate(speed * DashSpeed * Time.deltaTime, 0, 0);
             Mov = true;
         }
         else
         {
             Mov = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
-    void DashControl()
+    private void FixedUpdate()
     {
-        if (DashTimer < 2)
-        {
-            //Para que dash no se pase de 2
-            DashTimer += Time.deltaTime;
-        }
+        body.velocity = new Vector2(horizontal * runSpeed * dashingPower, vertical * runSpeed * dashingPower);
+    }
 
-        if (Input.GetButton("Debug Multiplier") && DashTimer >= 2)
-        {
-            //Logica del Dash
-            DashSpeed = 2.5f;
-            dashAni = true;
-            DashUse += Time.deltaTime;
-            if (DashUse > DashLimit)
-            {
-                DashUse = 0;
-                DashTimer = 0;
-                
-            }
-        }
-        else
-        {
-            DashSpeed = 1;
-            dashAni = false;
-        }
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        dashingPower = 2.5f;
+        trail.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        dashingPower = 1;
+        trail.emitting = false;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 
     private bool Iframes()
@@ -159,16 +142,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
+    //private void OnDrawGizmos()
+    //{
         
-        //Dibujo rango de detección del jugador 
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireSphere(transform.position, playerRange);
+    //    //Dibujo rango de detección del jugador 
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position, playerRange);
 
-        //Dibujo rango el cual el enemigo deja de seguir al player
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawWireSphere(transform.position, playerSafeRange);
+    //    //Dibujo rango el cual el enemigo deja de seguir al player
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position, playerSafeRange);
         
+    //}
+
+    private void Death()
+    {
+        if (PlayerHP <= 0)
+        {
+            isDeath = true;
+            Defeat = true;
+        }
+        else
+        {
+            isDeath = false;
+        }
     }
 }
