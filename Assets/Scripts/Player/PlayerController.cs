@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
     private float dashingPower = 1f;
-    private float dashingTime = 0.3f;
+    [SerializeField] private float dashingTime = 0.3f;
     private float dashingCooldown = 2f;
 
     //Range
@@ -70,14 +70,6 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if(horizontal != 0 && vertical != 0)
-        {
-            dashingPower = 0.7f;
-        }
-        else
-        {
-            dashingPower = 1;
-        }
         if(Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
         {
             Mov = true;
