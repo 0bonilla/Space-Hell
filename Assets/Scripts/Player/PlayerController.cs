@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Actor
 {
     Rigidbody2D body;
     //Movement
@@ -60,8 +60,6 @@ public class PlayerController : MonoBehaviour
         
         Animator.SetBool("Movement", Mov == true);
         Animator.SetBool("IsDeath", isDeath == true);
-
-        Death();
     }
 
 
@@ -158,16 +156,11 @@ public class PlayerController : MonoBehaviour
         
     //}
 
-    private void Death()
+    public void Die()
     {
-        if (PlayerHP <= 0)
-        {
-            isDeath = true;
-            Defeat = true;
-        }
-        else
-        {
-            isDeath = false;
-        }
+        base.Die();
+        isDeath = true;
+        Defeat = true;
+        Debug.Log("askldnadas");
     }
 }

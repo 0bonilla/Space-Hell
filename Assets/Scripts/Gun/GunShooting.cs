@@ -24,17 +24,12 @@ public class GunShooting : MonoBehaviour
         }
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.right), 10f);
-
-        if (hit)
-        {
-            Debug.Log("FIRE");
-        }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Vector3 direction = transform.TransformDirection(Vector3.right) * 10;
-        Gizmos.DrawRay(transform.position, direction);
+        //Gizmos.color = Color.red;
+        //Vector3 direction = transform.TransformDirection(Vector3.right) * 10;
+        //Gizmos.DrawRay(transform.position, direction);
     }
 }

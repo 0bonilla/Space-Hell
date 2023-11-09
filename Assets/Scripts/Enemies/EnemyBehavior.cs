@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
  
-public class EnemyBehavior: MonoBehaviour
+public class EnemyBehavior: Actor
 {
     private PlayerController player;
     private EnemyGun ScriptGun;
@@ -75,15 +75,10 @@ public class EnemyBehavior: MonoBehaviour
             EnemySHP--;
             DamageAnimation(true);
         }
-        else
-        {
-            
-        }
     }
 
     private void DamageAnimation(bool gotHit)
     {
         AnimGotHit = gotHit;
     }
-
 }
