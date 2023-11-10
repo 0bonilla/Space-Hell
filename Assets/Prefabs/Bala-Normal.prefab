@@ -141,7 +141,6 @@ MonoBehaviour:
   - Enemy
   - WallsDoors
   speed: 15
-  rb: {fileID: 6477003830721833378}
 --- !u!82 &-3107380285347985847
 AudioSource:
   m_ObjectHideFlags: 0

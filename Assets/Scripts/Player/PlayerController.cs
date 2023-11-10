@@ -39,6 +39,10 @@ public class PlayerController : Actor
     private bool flashingRender = true;
     [SerializeField] private TrailRenderer trail;
 
+    //IWeapon
+    [SerializeField] private IWeapon currentWeapon;
+    [SerializeField] private List<GameObject> weaponList;
+
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -47,19 +51,29 @@ public class PlayerController : Actor
         Rend = GetComponent<Renderer>();
         audioSource = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
+
+        SwitchWeapon(0);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if(isDeath == false)
+        if (isDeath == false)
         {
             CharacterMovement();
             Iframes();
         }
-        
+
+        body.velocity = new Vector2(horizontal * runSpeed * dashingPower, vertical * runSpeed * dashingPower);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {     
         Animator.SetBool("Movement", Mov == true);
         Animator.SetBool("IsDeath", isDeath == true);
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)) currentWeapon.Attack();
+        if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
     }
 
 
@@ -86,9 +100,14 @@ public class PlayerController : Actor
         }
     }
 
-    private void FixedUpdate()
+    private void SwitchWeapon(int index)
     {
-        body.velocity = new Vector2(horizontal * runSpeed * dashingPower, vertical * runSpeed * dashingPower);
+        foreach (GameObject weapon in weaponList)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+        weaponList[index].SetActive(true);
+        currentWeapon = weaponList[index].GetComponent<IWeapon>(); ;
     }
 
     private IEnumerator Dash()
