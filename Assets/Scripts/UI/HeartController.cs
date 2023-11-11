@@ -26,8 +26,8 @@ public class HeartController : MonoBehaviour
 
     void Update()
     {
-        playerhealth = player.PlayerHP;
-        NumOfHearts = player.PlayerTotalHP;
+        playerhealth = player.stats.MaxLife;
+        NumOfHearts = player.CurrentLife;
 
         for (int i = 0; i < hearts.Length; i++)
         {

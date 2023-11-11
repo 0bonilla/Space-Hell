@@ -6,6 +6,7 @@ public interface IBullet
 {
     float Speed { get; }
     IWeapon Owner { get; }
+    LayerMask HittableLayer { get; }
     void Travel();
 
     void SetOwner(IWeapon weapon);

@@ -2,34 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGun : MonoBehaviour
+public class EnemyGun : MonoBehaviour, IWeapon
 {
-    private float Shoot = 0;
-    private float ran = 0;
-    private bool canShoot;
-    [SerializeField] private GameObject bala;
-    // Start is called before the first frame update
-    void Start()
-    {
-        ran = Random.Range(2, 5);
+    public GameObject Bullet => bullet;
+    public int Damage => damage;
+    public Transform Shoot => shoot;
+    public int MagSize => throw new System.NotImplementedException();
 
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private int damage = 1;
+    [SerializeField] protected Transform shoot;
+
+    public void Attack()
+    {
+        GameObject b = Instantiate(bullet, shoot.transform.position, shoot.transform.rotation);
+        b.GetComponent<BallController>().SetOwner(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Reload()
     {
-        Shoot += Time.deltaTime;
-        if (Shoot > ran && canShoot)
-        {
-            Instantiate(bala, transform.position, transform.rotation);
-            ran = Random.Range(1.0f, 3.0f);
-            Shoot = 0;
-            
-        }
-    }
-
-    public void EnableShooting(bool IsEnabled)
-    {
-        canShoot = IsEnabled;
+        throw new System.NotImplementedException();
     }
 }

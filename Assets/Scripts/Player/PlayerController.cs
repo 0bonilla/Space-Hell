@@ -8,10 +8,10 @@ public class PlayerController : Actor
     //Movement
     float horizontal;
     float vertical;
-    public float runSpeed = 20f;
+    private float fixedMovement;
 
     //Dash
-    private bool canDash = true;
+    public bool canDash = true;
     private bool isDashing;
     private float dashingPower = 1f;
     [SerializeField] private float dashingTime = 0.3f;
@@ -22,8 +22,6 @@ public class PlayerController : Actor
     public int playerSafeRange;
 
     //Health
-    public int PlayerHP;
-    public int PlayerTotalHP;
     public bool Defeat;
     private bool GotHit;
     private float invincible;
@@ -45,25 +43,15 @@ public class PlayerController : Actor
 
     AudioSource audioSource;
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         Animator = GetComponent<Animator>();
         Rend = GetComponent<Renderer>();
         audioSource = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
-
         SwitchWeapon(0);
-    }
 
-    private void FixedUpdate()
-    {
-        if (isDeath == false)
-        {
-            CharacterMovement();
-            Iframes();
-        }
-
-        body.velocity = new Vector2(horizontal * runSpeed * dashingPower, vertical * runSpeed * dashingPower);
+        currentLife = MaxLife;
     }
 
     // Update is called once per frame
@@ -76,14 +64,37 @@ public class PlayerController : Actor
         if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
     }
 
+    private void FixedUpdate()
+    {
+        if (isDeath == false)
+        {
+            DashInput();
+            CharacterMovement();
+            Iframes();
+        }
+    }
+
+    private void CharacterInput()
+    {
+
+
+    }
 
     void CharacterMovement()
     {
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
+        body.velocity = new Vector2(horizontal * stats.MovementSpeed * dashingPower * fixedMovement, vertical * stats.MovementSpeed * dashingPower * fixedMovement);
+
         if (horizontal != 0 && vertical != 0 && isDashing == false)
         {
-            dashingPower = 0.7f;
+            fixedMovement = 0.7f;
+        }
+        else
+        {
+            fixedMovement = 1;
         }
         if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
         {
@@ -93,12 +104,16 @@ public class PlayerController : Actor
         {
             Mov = false;
         }
+    }
 
+    private void DashInput() 
+    {
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
     }
+
 
     private void SwitchWeapon(int index)
     {
@@ -147,7 +162,6 @@ public class PlayerController : Actor
     {
         if (collision.gameObject.tag == "EnemyBall" && !GotHit)
         {
-            PlayerHP--;
             GotHit = true;
             audioSource.Play(0);
         }
@@ -157,7 +171,6 @@ public class PlayerController : Actor
     {
         if (collision.gameObject.tag == "Enemy" && !GotHit)
         {
-            PlayerHP--;
             GotHit = true;
         }
     }
@@ -174,12 +187,4 @@ public class PlayerController : Actor
     //    Gizmos.DrawWireSphere(transform.position, playerSafeRange);
         
     //}
-
-    public void Die()
-    {
-        base.Die();
-        isDeath = true;
-        Defeat = true;
-        Debug.Log("askldnadas");
-    }
 }

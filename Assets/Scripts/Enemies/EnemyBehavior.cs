@@ -9,8 +9,7 @@ public class EnemyBehavior: Actor
     public GameObject Objectgun;
     public Transform target;
 
-    public float moveSpeed;
-    public int EnemySHP;
+    private float cooldown;
 
     private float PlayerRange;
     private float PlayerSafeRange;
@@ -24,47 +23,49 @@ public class EnemyBehavior: Actor
     private bool isDeath;
 
     // Use this for initialization
-    void Start()
+    new void Start()
     {
         player = FindObjectOfType<PlayerController>();
         PlayerRange = player.playerRange;
         PlayerSafeRange = player.playerSafeRange;
         Animator = GetComponent<Animator>();
         ScriptGun = Objectgun.GetComponent<EnemyGun>();
+
+        currentLife = MaxLife;
     }
 
     // Update is called once per frame
     void Update()
     {
         playerInRange = Physics2D.OverlapCircle(transform.position, PlayerRange, playerLayer);
-
         playerInSafeRange = Physics2D.OverlapCircle(transform.position, PlayerSafeRange, playerLayer);
 
         Animator.SetBool("Movement", Mov == true);
         Animator.SetBool("GotHit", AnimGotHit == true);
         Animator.SetBool("IsDeath", isDeath == true);
 
-        if(isDeath == false)
+        cooldown += Time.deltaTime;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isDeath == false && playerInRange)
         {
-            if (playerInRange && !playerInSafeRange)
+            if (cooldown > NextShot)
             {
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                ScriptGun.Attack();
+                cooldown = 0;
+            }
+            if (!playerInSafeRange)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, stats.MovementSpeed * Time.deltaTime);
                 Mov = true;
-                ScriptGun.EnableShooting(true);
             }
             else
             {
                 Mov = false;
             }
         }
-        
-
-        if (EnemySHP <= 0)
-        {
-            isDeath = true;
-            Destroy(gameObject);
-        }
-
         DamageAnimation(false);
     }
 
@@ -72,7 +73,6 @@ public class EnemyBehavior: Actor
     {
         if (collision.gameObject.tag == "ball")
         {
-            EnemySHP--;
             DamageAnimation(true);
         }
     }

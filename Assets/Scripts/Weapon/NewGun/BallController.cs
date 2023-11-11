@@ -6,16 +6,15 @@ using System.Linq;
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
 public class BallController : MonoBehaviour, IBullet
 {
-    public string[] validTags;
     [SerializeField] private float speed;
-    [SerializeField] private IWeapon owner;
-
-    private new Collider collider;
-    private Rigidbody rb;
+    [SerializeField] public IWeapon owner;
+    [SerializeField] public LayerMask hittableLayer;
 
     public float Speed => speed;
 
     public IWeapon Owner =>  owner;
+
+    public LayerMask HittableLayer => hittableLayer;
 
     void Update()
     {
@@ -24,11 +23,17 @@ public class BallController : MonoBehaviour, IBullet
 
     public void Travel() => transform.position += transform.right * Time.deltaTime * speed;
 
-    void OnTriggerEnter2D(Collider2D myTrigger)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (validTags.Contains(myTrigger.gameObject.tag))
+        if (((1 << other.gameObject.layer) & hittableLayer) != 0)
         {
-            Destroy(this.gameObject);
+            other.GetComponent<Actor>()?.TakeDamage(owner.Damage);
+            Destroy(gameObject);
+        }
+
+        if (other.tag == "WallsDoors")
+        {
+            Destroy(gameObject);
         }
     }
 

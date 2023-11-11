@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 4471588122687483568}
   - component: {fileID: 596649026297990627}
   - component: {fileID: 8302244148211458700}
-  m_Layer: 0
+  - component: {fileID: 1185601531}
+  m_Layer: 7
   m_Name: EnemyS
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -101,10 +102,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27df27add6379164681dad6e9b4329e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: b1659a945f486ed43bd0b47a08b68fa5, type: 2}
+  nextShot: 1.2
+  currentLife: 0
+  bullet: {fileID: 4520715736076462856, guid: ed971fd0a67faee49b453f15c0b4afd3, type: 3}
   Objectgun: {fileID: 5761058333318338773}
   target: {fileID: 6809178415573937035, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-  moveSpeed: 2
-  EnemySHP: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -175,6 +178,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1185601531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439078084449992289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74b28bc8728034891fecaa13c0e75f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: b1659a945f486ed43bd0b47a08b68fa5, type: 2}
+  nextShot: 0
+  currentLife: 0
+  bullet: {fileID: 4520715736076462856, guid: ed971fd0a67faee49b453f15c0b4afd3, type: 3}
 --- !u!1 &7145105499693266919
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2983961059177596626}
   - component: {fileID: 3202745935412280595}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GunPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,6 +258,10 @@ PrefabInstance:
     - target: {fileID: 5603936494495142666, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
       propertyPath: m_Name
       value: Pistola-Normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603936494495142666, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7392817577447750727, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
       propertyPath: m_RootOrder
@@ -296,6 +319,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7772150922143668589, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7959068415852456099, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
       propertyPath: bala
       value: 
@@ -341,4 +368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5199ca778212e174d845dd77e294cc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bala: {fileID: 6021730493595098997, guid: f907dc03967000e469ae8314b5bac680, type: 3}
+  bullet: {fileID: 4520715736076462856, guid: ed971fd0a67faee49b453f15c0b4afd3, type: 3}
+  damage: 1
+  shoot: {fileID: 6500293584394757209}
+--- !u!4 &6500293584394757209 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9086839635706832353, guid: 26145dd454155ae4fbc4cde32dc83d98, type: 3}
+  m_PrefabInstance: {fileID: 2607406141086843320}
+  m_PrefabAsset: {fileID: 0}

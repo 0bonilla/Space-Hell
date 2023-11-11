@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 787088388}
   - component: {fileID: 787088391}
   - component: {fileID: 787088376}
+  - component: {fileID: 1598105874}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -259,20 +260,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd8321b229abe34080e78b19eb97a3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: f4b2d34f851443e4c9aa5fb7c69c190f, type: 2}
   nextShot: 0
-  bullet: {fileID: 0}
+  currentLife: 0
+  bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
   runSpeed: 5
   dashingTime: 0.2
   playerRange: 13
   playerSafeRange: 5
-  PlayerHP: 6
-  PlayerTotalHP: 6
   Defeat: 0
   invincibleTime: 2
   isDeath: 0
   Rend: {fileID: 3899970645936310082}
   trail: {fileID: 787088391}
+  weaponList:
+  - {fileID: 5733552664508080272}
 --- !u!61 &6055180794403617583
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -544,6 +546,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1598105874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437993761383984933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74b28bc8728034891fecaa13c0e75f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: f4b2d34f851443e4c9aa5fb7c69c190f, type: 2}
+  nextShot: 0
+  currentLife: 0
+  bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
 --- !u!1 &7277917199049800022
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,12 +724,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8086194525298902537, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8475668464220370887, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}
       propertyPath: m_Name
       value: Gun (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8086194525298902537, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}
+--- !u!1 &5733552664508080272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8475668464220370887, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}
+  m_PrefabInstance: {fileID: 4183338599110563671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1586684910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5733552664508080272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db8171290c950d48b5056ddfb20feda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
+  damage: 3
+  magSize: 30
+  bulletCount: 0
+  shoot: {fileID: 6509778789639674908}
 --- !u!4 &6509778789639674908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6942673875120556875, guid: 01d4ed6c25f20494485e7d662b234611, type: 3}

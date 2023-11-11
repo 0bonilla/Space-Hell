@@ -13,7 +13,7 @@ public class Pistol : MonoBehaviour, IWeapon
     public Transform Shoot => shoot;
 
     [SerializeField] private GameObject bullet;
-    [SerializeField] private int damage = 7;
+    [SerializeField] private int damage = 3;
     [SerializeField] private int magSize = 30;
     [SerializeField] private int bulletCount;
     [SerializeField] protected Transform shoot;

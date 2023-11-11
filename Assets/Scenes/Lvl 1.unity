@@ -15042,7 +15042,7 @@ GameObject:
   - component: {fileID: 909113560}
   - component: {fileID: 909113564}
   - component: {fileID: 909113563}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: colitin
   m_TagString: WallsDoors
   m_Icon: {fileID: 0}
@@ -19801,6 +19801,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 331606282, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 331606283, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 255
+      objectReference: {fileID: 0}
     - target: {fileID: 5437993761383984933, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
       propertyPath: m_Name
       value: Player

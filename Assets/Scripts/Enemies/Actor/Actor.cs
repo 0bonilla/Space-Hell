@@ -9,11 +9,11 @@ public class Actor : MonoBehaviour, IDamagable
     public int CurrentLife => currentLife;
     public float NextShot => nextShot;
 
-    [SerializeField] protected ActorStats stats;
+    [SerializeField] public ActorStats stats;
 
     public float nextShot;
 
-    private int currentLife;
+    public int currentLife;
 
     public GameObject bullet;
 

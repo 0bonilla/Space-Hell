@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: EnemyRange
   m_EditorClassIdentifier: 
   stats:
-    MaxLife: 0
-    MovementSpeed: 0
-    NextShot: 0
+    MaxLife: 10
+    MovementSpeed: 5

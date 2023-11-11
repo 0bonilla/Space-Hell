@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5868460489162933004}
   - component: {fileID: -3107380285347985847}
   m_Layer: 0
-  m_Name: Bala-Normal
+  m_Name: EnemyBullet
   m_TagString: ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,10 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0b7040c52e7c64c843b01a83f98196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validTags:
-  - Enemy
-  - WallsDoors
   speed: 15
+  hittableLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!82 &-3107380285347985847
 AudioSource:
   m_ObjectHideFlags: 0

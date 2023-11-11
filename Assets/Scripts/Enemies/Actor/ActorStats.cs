@@ -17,6 +17,4 @@ public struct ActorStatValue
 {
     public int MaxLife;
     public float MovementSpeed;
-    public float NextShot;
-
 }
