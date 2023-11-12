@@ -26,7 +26,7 @@ public class gameManager : MonoBehaviour
         {
             Win.Invoke();
         }
-        if (player.Defeat)
+        if (player.isDeath)
         {
             defeat.Invoke();
         }

@@ -22,10 +22,7 @@ public class PlayerController : Actor
     public int playerSafeRange;
 
     //Health
-    public bool Defeat;
-    private bool GotHit;
-    private float invincible;
-    public float invincibleTime;
+    [SerializeField] private float FlashTime;
 
     //Animations
     private Animator Animator;
@@ -33,7 +30,7 @@ public class PlayerController : Actor
     public bool isDeath;
 
     //Render
-    public Renderer Rend;
+    private Renderer Rend;
     private bool flashingRender = true;
     [SerializeField] private TrailRenderer trail;
 
@@ -51,6 +48,7 @@ public class PlayerController : Actor
         body = GetComponent<Rigidbody2D>();
         SwitchWeapon(0);
 
+        FlashTime = invincibleTime;
         currentLife = MaxLife;
     }
 
@@ -62,32 +60,36 @@ public class PlayerController : Actor
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) currentWeapon.Attack();
         if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(Dash());
+
+        Flash();
     }
 
     private void FixedUpdate()
     {
+        Debug.Log(FlashTime);
         if (isDeath == false)
         {
-            DashInput();
             CharacterMovement();
-            Iframes();
         }
-    }
-
-    private void CharacterInput()
-    {
-
-
     }
 
     void CharacterMovement()
     {
-
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
         body.velocity = new Vector2(horizontal * stats.MovementSpeed * dashingPower * fixedMovement, vertical * stats.MovementSpeed * dashingPower * fixedMovement);
 
+        if (horizontal != 0 || vertical != 0)
+        {
+            Mov = true;
+        }
+        else
+        {
+            Mov = false;
+        }
+        
         if (horizontal != 0 && vertical != 0 && isDashing == false)
         {
             fixedMovement = 0.7f;
@@ -96,24 +98,7 @@ public class PlayerController : Actor
         {
             fixedMovement = 1;
         }
-        if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
-        {
-            Mov = true;
-        }
-        else
-        {
-            Mov = false;
-        }
     }
-
-    private void DashInput() 
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
-        {
-            StartCoroutine(Dash());
-        }
-    }
-
 
     private void SwitchWeapon(int index)
     {
@@ -139,39 +124,39 @@ public class PlayerController : Actor
         canDash = true;
     }
 
-    private bool Iframes()
+    private IEnumerator Iframes()
     {
-        if (GotHit && invincible < invincibleTime)
+        Currentinvincible = true;
+        audioSource.Play(0);
+        Debug.Log("soy invencible");
+        yield return new WaitForSeconds(FlashTime);
+        Debug.Log("no soy invencible");
+        Currentinvincible = false;
+        Rend.enabled = true;
+    }
+
+    public void Flash() 
+    {
+        if (Currentinvincible)
         {
-            invincible += Time.deltaTime;
             flashingRender = !flashingRender;
             Rend.enabled = flashingRender;
-            return true;   
         }
-        else
-        {
-            invincible = 0;
-            Rend.enabled = true;
-            GotHit = false;
-            return false;
-        }
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "EnemyBall" && !GotHit)
+        if (collision.gameObject.tag == "EnemyBall" && !Currentinvincible)
         {
-            GotHit = true;
-            audioSource.Play(0);
+            StartCoroutine(Iframes());
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && !GotHit)
+        if (collision.gameObject.tag == "Enemy" && !Currentinvincible)
         {
-            GotHit = true;
+            StartCoroutine(Iframes());
         }
     }
 

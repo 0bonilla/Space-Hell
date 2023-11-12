@@ -263,15 +263,14 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: f4b2d34f851443e4c9aa5fb7c69c190f, type: 2}
   nextShot: 0
   currentLife: 0
+  Currentinvincible: 0
+  invincibleTime: 0
   bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
-  runSpeed: 5
+  canDash: 1
   dashingTime: 0.2
   playerRange: 13
   playerSafeRange: 5
-  Defeat: 0
-  invincibleTime: 2
   isDeath: 0
-  Rend: {fileID: 3899970645936310082}
   trail: {fileID: 787088391}
   weaponList:
   - {fileID: 5733552664508080272}
@@ -561,6 +560,8 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: f4b2d34f851443e4c9aa5fb7c69c190f, type: 2}
   nextShot: 0
   currentLife: 0
+  Currentinvincible: 0
+  invincibleTime: 0.5
   bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
 --- !u!1 &7277917199049800022
 GameObject:

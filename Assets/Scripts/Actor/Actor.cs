@@ -15,7 +15,12 @@ public class Actor : MonoBehaviour, IDamagable
 
     public int currentLife;
 
+    public bool Currentinvincible;
+
+    public float invincibleTime;
+
     public GameObject bullet;
+
 
     protected void Start()
     {
@@ -24,8 +29,11 @@ public class Actor : MonoBehaviour, IDamagable
 
     public virtual void TakeDamage(int damage)
     {
-        currentLife -= damage;
-        Debug.Log($"{name} tiene {currentLife}!");
+        if (!Currentinvincible)
+        {
+            currentLife -= damage;
+            Debug.Log($"{name} tiene {currentLife}!");
+        }
 
         if (currentLife <= 0)
         {
