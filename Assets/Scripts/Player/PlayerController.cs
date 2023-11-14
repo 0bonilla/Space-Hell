@@ -61,6 +61,14 @@ public class PlayerController : Actor
         if (Input.GetKeyDown(KeyCode.Mouse0)) currentWeapon.Attack();
         if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(Dash());
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SwitchWeapon(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SwitchWeapon(1);
+        }
 
         Flash();
     }
@@ -157,6 +165,7 @@ public class PlayerController : Actor
         if (collision.gameObject.tag == "Enemy" && !Currentinvincible)
         {
             StartCoroutine(Iframes());
+            currentLife--;
         }
     }
 
