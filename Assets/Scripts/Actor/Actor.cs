@@ -19,6 +19,8 @@ public class Actor : MonoBehaviour, IDamagable
 
     public float invincibleTime;
 
+    public bool isDeath;
+
     public GameObject bullet;
 
 
@@ -44,6 +46,7 @@ public class Actor : MonoBehaviour, IDamagable
 
     public virtual void Die()
     {
+        isDeath = true;
         Destroy(gameObject);
     }
 }

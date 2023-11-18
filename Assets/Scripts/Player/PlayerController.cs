@@ -27,7 +27,6 @@ public class PlayerController : Actor
     //Animations
     private Animator Animator;
     private bool Mov;
-    public bool isDeath;
 
     //Render
     private Renderer Rend;
@@ -75,7 +74,6 @@ public class PlayerController : Actor
 
     private void FixedUpdate()
     {
-        Debug.Log(FlashTime);
         if (isDeath == false)
         {
             CharacterMovement();
@@ -169,16 +167,22 @@ public class PlayerController : Actor
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-        
-    //    //Dibujo rango de detección del jugador 
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireSphere(transform.position, playerRange);
+    public override void Die()
+    {
+        base.Die();
+        isDeath = true;
+    }
 
-    //    //Dibujo rango el cual el enemigo deja de seguir al player
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, playerSafeRange);
-        
-    //}
+    private void OnDrawGizmos()
+    {
+
+        //Dibujo rango de detección del jugador 
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, playerRange);
+
+        //Dibujo rango el cual el enemigo deja de seguir al player
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, playerSafeRange);
+
+    }
 }

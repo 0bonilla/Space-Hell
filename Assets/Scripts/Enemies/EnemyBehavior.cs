@@ -20,8 +20,6 @@ public class EnemyBehavior: Actor
     private Animator Animator;
     private bool Mov;
     private bool AnimGotHit;
-    private bool isDeath;
-
     // Use this for initialization
     new void Start()
     {
