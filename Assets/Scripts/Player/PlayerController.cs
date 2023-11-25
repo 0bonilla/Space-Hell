@@ -36,16 +36,16 @@ public class PlayerController : Actor
     //IWeapon
     [SerializeField] private IWeapon currentWeapon;
     [SerializeField] private List<GameObject> weaponList;
+    private int weaponIndex;
 
-    AudioSource audioSource;
     // Start is called before the first frame update
     new void Start()
     {
+        weaponIndex = 0;
         Animator = GetComponent<Animator>();
         Rend = GetComponent<Renderer>();
-        audioSource = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
-        SwitchWeapon(0);
+        SwitchWeapon(weaponIndex);
 
         FlashTime = invincibleTime;
         currentLife = MaxLife;
@@ -57,16 +57,26 @@ public class PlayerController : Actor
         Animator.SetBool("Movement", Mov == true);
         Animator.SetBool("IsDeath", isDeath == true);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) currentWeapon.Attack();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !gameManager.Instance.onMenu)
+        {
+            currentWeapon.Attack();
+        }
+
         if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(Dash());
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            SoundManager.Instance.PlayPlayerSFX("Dash");
+            StartCoroutine(Dash());
+        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SwitchWeapon(0);
+            weaponIndex = 0;
+            SwitchWeapon(weaponIndex);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SwitchWeapon(1);
+            weaponIndex = 1;
+            SwitchWeapon(weaponIndex);
         }
 
         Flash();
@@ -133,10 +143,9 @@ public class PlayerController : Actor
     private IEnumerator Iframes()
     {
         Currentinvincible = true;
-        audioSource.Play(0);
-        Debug.Log("soy invencible");
+        //Debug.Log("soy invencible");
         yield return new WaitForSeconds(FlashTime);
-        Debug.Log("no soy invencible");
+        //Debug.Log("no soy invencible");
         Currentinvincible = false;
         Rend.enabled = true;
     }
@@ -154,6 +163,7 @@ public class PlayerController : Actor
     {
         if (collision.gameObject.tag == "EnemyBall" && !Currentinvincible)
         {
+            SoundManager.Instance.PlayPlayerSFX("PlayerDamage");
             StartCoroutine(Iframes());
         }
     }

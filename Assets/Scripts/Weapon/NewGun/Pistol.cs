@@ -19,6 +19,7 @@ public class Pistol : MonoBehaviour, IWeapon
     [SerializeField] protected Transform shoot;
     private float cooldown;
     [SerializeField] private float cooldownTime = 0.4f;
+    [SerializeField] private int pistolType;
 
 
     private void Start()
@@ -40,10 +41,16 @@ public class Pistol : MonoBehaviour, IWeapon
     {
         if (bulletCount > 0 && cooldown > cooldownTime)
         {
+            if(pistolType == 0)
+                SoundManager.Instance.PlayPlayerSFX("PlayerShootPistol");
+            else if (pistolType == 1)
+                SoundManager.Instance.PlayPlayerSFX("PlayerShootRifle");
+
             GameObject b = Instantiate(bullet, shoot.transform.position, shoot.transform.rotation);
             b.GetComponent<BallController>().SetOwner(this);
             bulletCount--;
             cooldown = 0;
         }
+
     }
 }

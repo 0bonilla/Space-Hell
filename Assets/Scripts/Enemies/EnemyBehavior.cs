@@ -51,6 +51,7 @@ public class EnemyBehavior: Actor
         {
             if (cooldown > NextShot)
             {
+                SoundManager.Instance.PlayEnemySFX("EnemyShoot");
                 ScriptGun.Attack();
                 cooldown = 0;
             }
@@ -71,6 +72,7 @@ public class EnemyBehavior: Actor
     {
         if (collision.gameObject.tag == "ball")
         {
+            SoundManager.Instance.PlayEnemySFX("EnemyDamage");
             DamageAnimation(true);
         }
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public interface IWeapon
 {
-
     GameObject Bullet { get; }
 
     Transform Shoot { get; }

@@ -13,9 +13,13 @@ public class AimController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float z = transform.position.z;
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = z;
-        transform.position = mousePosition;
+        if(!gameManager.Instance.onMenu)
+        {
+            float z = transform.position.z;
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = z;
+            transform.position = mousePosition;
+        }
+        
     }
 }

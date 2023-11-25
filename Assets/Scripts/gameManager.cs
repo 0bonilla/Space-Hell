@@ -14,6 +14,8 @@ public class gameManager : MonoBehaviour
 
     public GameObject pauseMenu; // Referencia al menu de pausa
 
+    public bool onMenu = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -24,7 +26,7 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.visible = false;
+        HideCursor();
         winPlatform = FindObjectOfType<WinPlatform>();
         player = FindObjectOfType<PlayerController>();
     }
@@ -42,6 +44,8 @@ public class gameManager : MonoBehaviour
             // Si no está activo, lo activo y paro el juego
             else
             {
+                ShowCursor();
+                onMenu = true;
                 Time.timeScale = 0f;
                 pauseMenu.SetActive(true);
             }
@@ -58,8 +62,20 @@ public class gameManager : MonoBehaviour
     }
     public void Continue()
     {
+        HideCursor();
+        onMenu = false;
         Time.timeScale = 1f; // Vuelvo el tiempo de juego a la normalidad
         pauseMenu.SetActive(false); // Desactivo el menu de pausa
+    }
+
+    public void HideCursor()
+    {
+        Cursor.visible = false;
+    }
+
+    public void ShowCursor()
+    {
+        Cursor.visible = true;
     }
 
 }
