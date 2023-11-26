@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using Pathfinding;
 
 public class EnemyFollowPlayer : Actor
 {
@@ -9,6 +10,7 @@ public class EnemyFollowPlayer : Actor
     private EnemyGun ScriptGun;
     public GameObject Objectgun;
     public Transform target;
+    [SerializeField] private AIPath aiPath;
 
     private float cooldown;
 
@@ -30,6 +32,9 @@ public class EnemyFollowPlayer : Actor
         PlayerSafeRange = player.playerSafeRange;
         Animator = GetComponent<Animator>();
         ScriptGun = Objectgun.GetComponent<EnemyGun>();
+        aiPath = GetComponent<AIPath>();
+        aiPath.maxSpeed = stats.MovementSpeed;
+        aiPath.canMove = false;
 
         currentLife = MaxLife;
     }
@@ -51,7 +56,7 @@ public class EnemyFollowPlayer : Actor
     {
         if (isDeath == false && playerInRange)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, stats.MovementSpeed * Time.deltaTime);
+            aiPath.canMove = true;
             Mov = true;
         }
         DamageAnimation(false);

@@ -1,6 +1,6 @@
-
 using UnityEngine;
 using System.Collections;
+using Pathfinding;
  
 public class EnemyBehavior: Actor
 {
@@ -8,6 +8,7 @@ public class EnemyBehavior: Actor
     private EnemyGun ScriptGun;
     public GameObject Objectgun;
     public Transform target;
+    [SerializeField] private AIPath aiPath;
 
     private float cooldown;
 
@@ -28,6 +29,9 @@ public class EnemyBehavior: Actor
         PlayerSafeRange = player.playerSafeRange;
         Animator = GetComponent<Animator>();
         ScriptGun = Objectgun.GetComponent<EnemyGun>();
+        aiPath = GetComponent<AIPath>();
+        aiPath.maxSpeed = stats.MovementSpeed;
+        aiPath.canMove = false;
 
         currentLife = MaxLife;
     }
@@ -57,11 +61,12 @@ public class EnemyBehavior: Actor
             }
             if (!playerInSafeRange)
             {
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, stats.MovementSpeed * Time.deltaTime);
+                aiPath.canMove = true;
                 Mov = true;
             }
             else
             {
+                aiPath.canMove = false;
                 Mov = false;
             }
         }
