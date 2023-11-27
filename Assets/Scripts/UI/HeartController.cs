@@ -19,8 +19,6 @@ public class HeartController : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        
-
     }
 
 

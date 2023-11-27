@@ -13,6 +13,7 @@ public class gameManager : MonoBehaviour
     private PlayerController player;
 
     public GameObject pauseMenu; // Referencia al menu de pausa
+    public GameObject configurationMenu;
 
     public bool onMenu = false;
 
@@ -37,7 +38,7 @@ public class gameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Si se presiona Escape, y el menú de pausa está activo, llamo a la funcion Continue()
-            if (pauseMenu.activeInHierarchy)
+            if (pauseMenu.activeInHierarchy || configurationMenu.activeInHierarchy)
             {
                 Continue();
             }
@@ -66,6 +67,7 @@ public class gameManager : MonoBehaviour
         onMenu = false;
         Time.timeScale = 1f; // Vuelvo el tiempo de juego a la normalidad
         pauseMenu.SetActive(false); // Desactivo el menu de pausa
+        configurationMenu.SetActive(false);
     }
 
     public void HideCursor()

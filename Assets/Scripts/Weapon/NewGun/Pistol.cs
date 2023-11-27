@@ -14,22 +14,27 @@ public class Pistol : MonoBehaviour, IWeapon
 
     [SerializeField] private GameObject bullet;
     [SerializeField] private int damage = 3;
-    [SerializeField] private int magSize = 30;
-    [SerializeField] private int bulletCount;
+    [SerializeField] private int magSize;
+    public int bulletCount;
     [SerializeField] protected Transform shoot;
     private float cooldown;
     [SerializeField] private float cooldownTime = 0.4f;
     [SerializeField] private int pistolType;
 
+    private BulletCounter Counter;
 
     private void Start()
     {
         Reload();
+
+        Counter = GameObject.Find("Canvas").GetComponent<BulletCounter>();
     }
 
     private void Update()
     {
         cooldown += Time.deltaTime;
+        Debug.Log(bulletCount);
+        Counter.UpdateAmmo(bulletCount);
     }
 
     public void Reload()

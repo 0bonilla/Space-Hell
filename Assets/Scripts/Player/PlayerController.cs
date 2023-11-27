@@ -54,6 +54,11 @@ public class PlayerController : Actor
     // Update is called once per frame
     void Update()
     {     
+        if(currentLife <= 0)
+        {
+            isDeath = true;
+        }
+
         Animator.SetBool("Movement", Mov == true);
         Animator.SetBool("IsDeath", isDeath == true);
 
