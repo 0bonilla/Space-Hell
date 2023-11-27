@@ -77,5 +77,4 @@ public class gameManager : MonoBehaviour
     {
         Cursor.visible = true;
     }
-
 }
