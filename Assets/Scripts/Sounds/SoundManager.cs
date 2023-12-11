@@ -11,8 +11,6 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource musicSource, playerSfxSource, enemySfxSource;
 
-    private float timeToPlay = 0f;
-
     private void Awake()
     {
         if (Instance == null) 

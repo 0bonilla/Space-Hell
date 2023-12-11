@@ -9,13 +9,14 @@ public class PlayerController : Actor
     float horizontal;
     float vertical;
     private float fixedMovement;
+    private float speed;
 
     //Dash
     public bool canDash = true;
-    private bool isDashing;
+    public bool isDashing;
     private float dashingPower = 1f;
     [SerializeField] private float dashingTime = 0.3f;
-    private float dashingCooldown = 2f;
+    public float dashingCooldown = 2f;
 
     //Range
     public int playerRange;
@@ -38,6 +39,11 @@ public class PlayerController : Actor
     [SerializeField] private List<GameObject> weaponList;
     private int weaponIndex;
 
+    //Light
+    [SerializeField] private new GameObject light;
+    public bool LightActive;
+
+
     // Start is called before the first frame update
     new void Start()
     {
@@ -49,6 +55,9 @@ public class PlayerController : Actor
 
         FlashTime = invincibleTime;
         currentLife = MaxLife;
+
+        LightActive = true;
+        speed = stats.MovementSpeed;
     }
 
     // Update is called once per frame
@@ -83,6 +92,10 @@ public class PlayerController : Actor
             weaponIndex = 1;
             SwitchWeapon(weaponIndex);
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            TurnLight();
+        }
 
         Flash();
     }
@@ -100,7 +113,7 @@ public class PlayerController : Actor
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        body.velocity = new Vector2(horizontal * stats.MovementSpeed * dashingPower * fixedMovement, vertical * stats.MovementSpeed * dashingPower * fixedMovement);
+        body.velocity = new Vector2(horizontal * speed * dashingPower * fixedMovement, vertical * stats.MovementSpeed * dashingPower * fixedMovement);
 
         if (horizontal != 0 || vertical != 0)
         {
@@ -161,6 +174,22 @@ public class PlayerController : Actor
         {
             flashingRender = !flashingRender;
             Rend.enabled = flashingRender;
+        }
+    }
+
+    public void TurnLight()
+    {
+        LightActive = !LightActive;
+
+        if (LightActive)
+        {
+            light.SetActive(true);
+            speed = stats.MovementSpeed;
+        }
+        else
+        {
+            light.SetActive(false);
+            speed = 3.5f;
         }
     }
 

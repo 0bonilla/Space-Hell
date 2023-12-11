@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using Pathfinding;
 
-public class EnemyFollowPlayer : Actor
+public class EnemyFollowPlayer : Actor, IProduct
 {
     private PlayerController player;
     private EnemyGun ScriptGun;
@@ -23,6 +23,8 @@ public class EnemyFollowPlayer : Actor
     private Animator Animator;
     private bool Mov;
     private bool AnimGotHit;
+
+    public GameObject MyGameObject => gameObject;
 
     // Use this for initialization
     new void Start()
@@ -80,5 +82,10 @@ public class EnemyFollowPlayer : Actor
     private void DamageAnimation(bool gotHit)
     {
         AnimGotHit = gotHit;
+    }
+
+    public IProduct Clone()
+    {
+        return Instantiate(this);
     }
 }

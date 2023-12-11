@@ -33,7 +33,6 @@ public class Pistol : MonoBehaviour, IWeapon
     private void Update()
     {
         cooldown += Time.deltaTime;
-        Debug.Log(bulletCount);
         Counter.UpdateAmmo(bulletCount);
     }
 
