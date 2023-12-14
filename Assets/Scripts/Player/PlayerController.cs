@@ -13,10 +13,7 @@ public class PlayerController : Actor
 
     //Dash
     public bool canDash = true;
-    public bool isDashing;
-    private float dashingPower = 1f;
-    [SerializeField] private float dashingTime = 0.3f;
-    public float dashingCooldown = 2f;
+    private DashController dash;
 
     //Range
     public int playerRange;
@@ -32,7 +29,7 @@ public class PlayerController : Actor
     //Render
     private Renderer Rend;
     private bool flashingRender = true;
-    [SerializeField] private TrailRenderer trail;
+    public TrailRenderer trail;
 
     //IWeapon
     [SerializeField] private IWeapon currentWeapon;
@@ -43,6 +40,9 @@ public class PlayerController : Actor
     [SerializeField] private new GameObject light;
     public bool LightActive;
 
+    //Command
+    private CmdMove _cmdMove;
+    private CdmDash _cdmDash;
 
     // Start is called before the first frame update
     new void Start()
@@ -52,6 +52,7 @@ public class PlayerController : Actor
         Rend = GetComponent<Renderer>();
         body = GetComponent<Rigidbody2D>();
         SwitchWeapon(weaponIndex);
+        dash = GetComponent<DashController>();
 
         FlashTime = invincibleTime;
         currentLife = MaxLife;
@@ -77,10 +78,11 @@ public class PlayerController : Actor
         }
 
         if (Input.GetKeyDown(KeyCode.R)) currentWeapon.Reload();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash || dash.isDashing)
         {
-            SoundManager.Instance.PlayPlayerSFX("Dash");
-            StartCoroutine(Dash());
+            StartCoroutine(dash.Dash());
+            gameManager.Instance.AddEvents(_cdmDash = new CdmDash(body, horizontal, vertical, speed, dash.dashingPower, fixedMovement));
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -110,10 +112,15 @@ public class PlayerController : Actor
 
     void CharacterMovement()
     {
+        if (Input.GetKey(KeyCode.W)) gameManager.Instance.AddEvents(_cmdMove = new CmdMove(body, horizontal, vertical, speed, fixedMovement));
+        if (Input.GetKey(KeyCode.S)) gameManager.Instance.AddEvents(_cmdMove = new CmdMove(body, horizontal, vertical, speed, fixedMovement));
+        if (Input.GetKey(KeyCode.A)) gameManager.Instance.AddEvents(_cmdMove = new CmdMove(body, horizontal, vertical, speed, fixedMovement));
+        if (Input.GetKey(KeyCode.D)) gameManager.Instance.AddEvents(_cmdMove = new CmdMove(body, horizontal, vertical, speed, fixedMovement));
+
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        body.velocity = new Vector2(horizontal * speed * dashingPower * fixedMovement, vertical * stats.MovementSpeed * dashingPower * fixedMovement);
+        //body.velocity = new Vector2(horizontal * speed * dashingPower * fixedMovement, vertical * speed * dashingPower * fixedMovement);
 
         if (horizontal != 0 || vertical != 0)
         {
@@ -122,9 +129,10 @@ public class PlayerController : Actor
         else
         {
             Mov = false;
+            body.velocity = new Vector2(0,0);
         }
         
-        if (horizontal != 0 && vertical != 0 && isDashing == false)
+        if (horizontal != 0 && vertical != 0 && dash.isDashing == false)
         {
             fixedMovement = 0.7f;
         }
@@ -142,20 +150,6 @@ public class PlayerController : Actor
         }
         weaponList[index].SetActive(true);
         currentWeapon = weaponList[index].GetComponent<IWeapon>(); ;
-    }
-
-    private IEnumerator Dash()
-    {
-        canDash = false;
-        isDashing = true;
-        dashingPower = 2.5f;
-        trail.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
-        dashingPower = 1;
-        trail.emitting = false;
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
     }
 
     private IEnumerator Iframes()
@@ -185,6 +179,8 @@ public class PlayerController : Actor
         {
             light.SetActive(true);
             speed = stats.MovementSpeed;
+            gameManager.Instance.AddEvents(_cmdMove = new CmdMove(body, horizontal, vertical, speed, fixedMovement));
+
         }
         else
         {
@@ -220,13 +216,13 @@ public class PlayerController : Actor
     private void OnDrawGizmos()
     {
 
-        //Dibujo rango de detección del jugador 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, playerRange);
+        ////Dibujo rango de detección del jugador 
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(transform.position, playerRange);
 
-        //Dibujo rango el cual el enemigo deja de seguir al player
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, playerSafeRange);
+        ////Dibujo rango el cual el enemigo deja de seguir al player
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawWireSphere(transform.position, playerSafeRange);
 
     }
 }

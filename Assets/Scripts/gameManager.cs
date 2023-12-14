@@ -17,6 +17,22 @@ public class gameManager : MonoBehaviour
 
     public bool onMenu = false;
 
+    //Command
+    private Queue<ICommand> _events = new Queue<ICommand>();
+    private List<ICommand> _doneEvents = new List<ICommand>();
+    private const int MAX_UNDOS = 5000;
+
+    public void AddEvents(ICommand command) => _events.Enqueue(command);
+
+    public void UndoEvents()
+    {
+        if (_doneEvents.Count == 0) return;
+
+        int lastIndex = _doneEvents.Count - 1;
+        _doneEvents[lastIndex].Undo();
+        _doneEvents.RemoveAt(lastIndex);
+    }
+
     void Awake()
     {
         if (Instance == null)
@@ -30,6 +46,7 @@ public class gameManager : MonoBehaviour
         HideCursor();
         winPlatform = FindObjectOfType<WinPlatform>();
         player = FindObjectOfType<PlayerController>();
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -51,7 +68,20 @@ public class gameManager : MonoBehaviour
                 pauseMenu.SetActive(true);
             }
         }
-        
+
+        while (_events.Count > 0)
+        {
+            // aplicar logica necesaria
+            var command = _events.Dequeue();
+
+            _doneEvents.Add(command);
+            if (_doneEvents.Count > MAX_UNDOS) _doneEvents.RemoveAt(0);
+
+            command.Do();
+        }
+
+        if (Input.GetKey(KeyCode.Z)) UndoEvents();
+
         if (winPlatform.win)
         {
             Win.Invoke();
