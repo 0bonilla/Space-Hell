@@ -411,16 +411,15 @@ MonoBehaviour:
   isDeath: 0
   bullet: {fileID: 4520715736076462856, guid: 0e566ced6e940d744a7270b55fb0d677, type: 3}
   canDash: 1
-  isDashing: 0
-  dashingTime: 0.2
-  dashingCooldown: 2
   playerRange: 13
-  playerSafeRange: 5
+  playerSafeRange: 4
   FlashTime: 2
   trail: {fileID: 787088391}
   weaponList:
   - {fileID: 7277917199049800022}
   - {fileID: 1799639918}
+  light: {fileID: 331606281}
+  LightActive: 0
 --- !u!61 &6055180794403617583
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -629,6 +628,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownImage: {fileID: 0}
   player: {fileID: 2294748228389417944}
+  isDashing: 0
+  dashingPower: 1
+  dashingTime: 0.3
+  dashingCooldown: 2
 --- !u!1 &7277917199049800022
 GameObject:
   m_ObjectHideFlags: 0

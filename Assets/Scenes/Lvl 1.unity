@@ -1110,7 +1110,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1125,7 +1125,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -35967,11 +35967,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4841328570265627915, guid: 52b0dbbfe3e9f5f41b01affa7799caa7, type: 3}
   m_PrefabInstance: {fileID: 223505453}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1148488889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 331606281, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-  m_PrefabInstance: {fileID: 2934765075097128313}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1151027840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40270,25 +40265,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 787088396, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-      propertyPath: dashingTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 787088396, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
       propertyPath: cooldownImage
       value: 
       objectReference: {fileID: 398191610}
-    - target: {fileID: 2294748228389417944, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-      propertyPath: light
-      value: 
-      objectReference: {fileID: 1148488889}
-    - target: {fileID: 2294748228389417944, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-      propertyPath: MaxPlayerRange
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 2294748228389417944, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
-      propertyPath: playerSafeRange
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5437993761383984933, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
       propertyPath: m_Name
       value: Player
