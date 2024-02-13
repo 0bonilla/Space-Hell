@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  target: {fileID: 0}
+  target: {fileID: 6809178415573937035, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
 --- !u!114 &4128928072422759826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,8 +377,8 @@ MonoBehaviour:
   isDeath: 0
   bullet: {fileID: 4520715736076462856, guid: ed971fd0a67faee49b453f15c0b4afd3, type: 3}
   Objectgun: {fileID: 8556700974214390378}
-  target: {fileID: 0}
-  aiPath: {fileID: 0}
+  target: {fileID: 6809178415573937035, guid: 3ca468f466ae60c4aab3204c5634c332, type: 3}
+  aiPath: {fileID: 4128928072422759826}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
